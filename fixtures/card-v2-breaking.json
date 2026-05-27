@@ -1,0 +1,31 @@
+{
+  "agent_card_version": "0.1",
+  "agent": {
+    "id": "research-assistant",
+    "name": "Research Assistant",
+    "version": "2.0.0",
+    "provider": "kineticgain",
+    "description": "Reads long PDF policies and answers procurement questions; can also draft summary memos."
+  },
+  "capabilities": {
+    "primary_purpose": "Question answering and memo drafting over uploaded PDFs",
+    "models_used": [
+      { "model": "gpt-4o-mini", "role": "qa" }
+    ],
+    "tools": [
+      { "name": "search-vectorstore", "side_effects": "read" },
+      { "name": "draft-memo", "side_effects": "external" }
+    ],
+    "max_context_tokens": 64000,
+    "memory_persistence": "persistent",
+    "autonomy_level": "autonomous"
+  },
+  "refusal_taxonomy": [
+    { "category": "legal-advice", "behavior": "refuse_and_explain" }
+  ],
+  "evaluations": [
+    { "suite": "ragas-faithfulness", "result_uri": "https://example.com/evals/ragas-faithfulness-2.0.json", "ran_at": "2026-05-25T00:00:00Z" }
+  ],
+  "deployment": { "environment": "production", "status": "active" },
+  "safety_posture": {}
+}

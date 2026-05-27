@@ -1,0 +1,42 @@
+name: "Agent Card Diff"
+description: "PR gate for A2A AgentCard changes. Retrieves the previous version of the card via `git show <base.sha>:<card-path>`, diffs against HEAD using agent-card-diff, posts the structured diff as a PR comment, and fails the build on breaking changes."
+author: "mizcausevic-dev"
+branding:
+  icon: "git-pull-request"
+  color: "purple"
+
+inputs:
+  card-path:
+    description: "Path (relative to repo root) to the AgentCard JSON file being changed in the PR."
+    required: true
+  base-sha:
+    description: "Override the base SHA used to retrieve the previous version. Defaults to pull_request.base.sha from the event payload."
+    required: false
+  comment-on-pr:
+    description: "Post the Markdown diff as a PR comment. 'auto' (default) posts only on pull_request events; 'true' / 'false' force the behavior."
+    required: false
+    default: "auto"
+  fail-on-breaking:
+    description: "Fail the run when the diff is classified as BREAKING (default 'true')."
+    required: false
+    default: "true"
+  fail-on-any-change:
+    description: "Fail the run when there is ANY diff at all (default 'false'). Useful for frozen-card workflows."
+    required: false
+    default: "false"
+  github-token:
+    description: "Token used to post the PR comment (defaults to GITHUB_TOKEN)."
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  breaking:
+    description: "True iff the diff is BREAKING."
+  change-count:
+    description: "Number of changes detected in the diff."
+  new-card:
+    description: "True iff the card path didn't exist at base SHA (newly added card)."
+
+runs:
+  using: "node20"
+  main: "dist/index.js"

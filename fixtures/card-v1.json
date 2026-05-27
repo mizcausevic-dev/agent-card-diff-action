@@ -1,0 +1,36 @@
+{
+  "agent_card_version": "0.1",
+  "agent": {
+    "id": "research-assistant",
+    "name": "Research Assistant",
+    "version": "1.0.0",
+    "provider": "kineticgain",
+    "description": "Reads long PDF policies and answers procurement questions over them.",
+    "homepage": "https://example.com/research-assistant"
+  },
+  "capabilities": {
+    "primary_purpose": "Question answering over uploaded PDFs",
+    "models_used": [
+      { "model": "gpt-4o-mini", "role": "qa" },
+      { "model": "text-embedding-3-small", "role": "retrieval" }
+    ],
+    "tools": [
+      { "name": "search-vectorstore", "side_effects": "read" },
+      { "name": "summarize", "side_effects": "read" }
+    ],
+    "max_context_tokens": 128000,
+    "memory_persistence": "session",
+    "autonomy_level": "supervised"
+  },
+  "refusal_taxonomy": [
+    { "category": "legal-advice", "behavior": "refuse_and_explain" },
+    { "category": "out-of-scope", "behavior": "refuse_and_explain" }
+  ],
+  "evaluations": [
+    { "suite": "ragas-faithfulness", "result_uri": "https://example.com/evals/ragas-faithfulness-1.0.json", "ran_at": "2026-05-20T00:00:00Z" }
+  ],
+  "deployment": { "environment": "production", "status": "active" },
+  "safety_posture": {
+    "incident_response_uri": "https://example.com/incidents"
+  }
+}

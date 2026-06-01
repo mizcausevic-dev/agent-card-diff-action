@@ -1,5 +1,5 @@
 name: "Agent Card Diff"
-description: "PR gate for A2A AgentCard changes. Retrieves the previous version of the card via `git show <base.sha>:<card-path>`, diffs against HEAD using agent-card-diff, posts the structured diff as a PR comment, and fails the build on breaking changes."
+description: "PR gate for A2A AgentCard changes — diffs HEAD vs base, posts a comment, fails the build on breaking changes."
 author: "mizcausevic-dev"
 branding:
   icon: "git-pull-request"
